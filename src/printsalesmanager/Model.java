@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class Model{
 
     //Replace with a Map<Print, Integer> for quantities to be stored in the model instead.
-    private final ArrayList<Piece> pieces; //TODO: Replace with getPrints method
+    private final ArrayList<String> pieces; //TODO: Replace with getPrints method
     private String name;
 
-    public Model(ArrayList<Piece> pieces, String name){
+    public Model(ArrayList<String> pieces, String name){
         this.pieces = pieces;
         this.name = name;
     }
@@ -41,7 +41,9 @@ public class Model{
      */
     public int getTime(){
         int time = 0;
-        time = pieces.stream().map((piece) -> piece.getTime()).reduce(time, Integer::sum);
+        time = pieces.stream().map((piece) -> {
+            return MainWindow.DATAMAN.getPiece(piece).getTime();
+        }).reduce(time, Integer::sum);
         return time;
     }
 

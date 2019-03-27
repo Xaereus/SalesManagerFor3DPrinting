@@ -4,10 +4,10 @@
   <NonVisualComponents>
     <Component class="javax.swing.JFileChooser" name="jFileChooser1">
     </Component>
-    <Container class="javax.swing.JDialog" name="dialog_newOrder">
+    <Container class="javax.swing.JDialog" name="dialog_order">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[300, 280]"/>
+          <Dimension value="[300, 350]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
@@ -15,38 +15,40 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="newOrder_label_header" alignment="1" max="32767" attributes="0"/>
+              <Component id="order_label_header" alignment="1" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="newOrder_comboBox_customer" alignment="0" max="32767" attributes="0"/>
-                              <Component id="newOrder_comboBox_model" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="newOrder_label_quantity" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="order_comboBox_customer" alignment="0" max="32767" attributes="0"/>
+                              <Component id="order_comboBox_model" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="newOrder_label_orderedOn" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="newOrder_comboBox_year" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="newOrder_comboBox_month" pref="80" max="32767" attributes="0"/>
+                                  <Component id="order_label_quantity" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="newOrder_comboBox_day" alignment="1" max="32767" attributes="0"/>
-                              <Component id="newOrder_button_newCustomer" alignment="0" max="32767" attributes="0"/>
-                              <Component id="newOrder_button_newModel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="newOrder_spinner_quantity" alignment="1" max="32767" attributes="0"/>
+                              <Component id="order_button_newCustomer" alignment="0" max="32767" attributes="0"/>
+                              <Component id="order_button_newModel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="order_spinner_quantity" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="newOrder_button_cancelOrder" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="order_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newOrder_button_createOrder" max="32767" attributes="0"/>
+                          <Component id="order_button_done" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="order_label_orderedOn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="order_spinner_date" pref="186" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="order_label_name" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                          <Component id="order_textField_name" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -56,89 +58,90 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="newOrder_label_header" min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="order_label_header" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="newOrder_comboBox_customer" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newOrder_button_newCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="order_comboBox_customer" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="order_button_newCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="newOrder_comboBox_model" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newOrder_button_newModel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="order_comboBox_model" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="order_button_newModel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="newOrder_label_quantity" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="newOrder_spinner_quantity" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="order_spinner_quantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="order_label_quantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="newOrder_label_orderedOn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="newOrder_comboBox_year" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="newOrder_comboBox_month" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="newOrder_comboBox_day" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="order_label_orderedOn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="order_spinner_date" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="newOrder_button_createOrder" pref="81" max="32767" attributes="0"/>
-                      <Component id="newOrder_button_cancelOrder" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="order_textField_name" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="order_label_name" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="order_button_cancel" max="32767" attributes="0"/>
+                      <Component id="order_button_done" min="-2" pref="79" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="newOrder_label_header">
+        <Component class="javax.swing.JLabel" name="order_label_header">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="48" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="New Order"/>
+            <Property name="text" type="java.lang.String" value="Order"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="newOrder_comboBox_customer">
+        <Component class="javax.swing.JComboBox" name="order_comboBox_customer">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Customer"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="newOrder_comboBox_model">
+        <Component class="javax.swing.JComboBox" name="order_comboBox_model">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Model"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JSpinner" name="newOrder_spinner_quantity">
+        <Component class="javax.swing.JSpinner" name="order_spinner_quantity">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="newOrder_label_quantity">
+        <Component class="javax.swing.JLabel" name="order_label_quantity">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="1"/>
@@ -146,52 +149,7 @@
             <Property name="text" type="java.lang.String" value="Quantity:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="newOrder_comboBox_year">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="12" style="0"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Year"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="newOrder_comboBox_month">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="12" style="0"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Month"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="newOrder_comboBox_day">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="12" style="0"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Day"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="newOrder_button_newCustomer">
+        <Component class="javax.swing.JButton" name="order_button_newCustomer">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -199,10 +157,10 @@
             <Property name="text" type="java.lang.String" value="New"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newOrder_button_newCustomerActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="order_button_newCustomerActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="newOrder_button_newModel">
+        <Component class="javax.swing.JButton" name="order_button_newModel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -210,10 +168,10 @@
             <Property name="text" type="java.lang.String" value="New"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newOrder_button_newModelActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="order_button_newModelActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="newOrder_label_orderedOn">
+        <Component class="javax.swing.JLabel" name="order_label_orderedOn">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="1"/>
@@ -221,15 +179,18 @@
             <Property name="text" type="java.lang.String" value="Ordered on:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="newOrder_button_createOrder">
+        <Component class="javax.swing.JButton" name="order_button_done">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Create"/>
+            <Property name="text" type="java.lang.String" value="Done"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="order_button_doneActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="newOrder_button_cancelOrder">
+        <Component class="javax.swing.JButton" name="order_button_cancel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -237,68 +198,31 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newOrder_button_cancelOrderActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="order_button_cancelActionPerformed"/>
           </Events>
         </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JDialog" name="dialog_editOrder">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="editOrder_label_header" alignment="0" pref="334" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_apply" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="editOrder_label_header" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editOrder_button_apply" alignment="0" pref="81" max="32767" attributes="0"/>
-                      <Component id="editOrder_button_cancel" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="editOrder_label_header">
+        <Component class="javax.swing.JSpinner" name="order_spinner_date">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="48" style="1"/>
+              <Font name="Consolas" size="12" style="0"/>
             </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Edit Order"/>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="now" maximum="now" minimum="1490547180000" stepSize="5" type="date"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="MainWindow_order_spinner_year"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="order_label_name">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Name:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_apply">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="24" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Apply"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_cancel">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="24" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editOrder_button_cancelActionPerformed"/>
-          </Events>
+        <Component class="javax.swing.JTextField" name="order_textField_name">
         </Component>
       </SubComponents>
     </Container>
@@ -317,29 +241,29 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Container class="javax.swing.JDialog" name="dialog_newCustomer">
+    <Container class="javax.swing.JDialog" name="dialog_customer">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="newCustomer_label_header" alignment="0" pref="340" max="32767" attributes="0"/>
+              <Component id="customer_label_header" alignment="0" pref="340" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="newCustomer_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="customer_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newCustomer_button_create" max="32767" attributes="0"/>
+                          <Component id="customer_button_done" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="newCustomer_label_balance" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="newCustomer_label_name" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="customer_label_balance" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="customer_label_name" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="newCustomer_textField_name" max="32767" attributes="0"/>
-                              <Component id="newCustomer_textField_balance" max="32767" attributes="0"/>
+                              <Component id="customer_textField_name" max="32767" attributes="0"/>
+                              <Component id="customer_textField_balance" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -350,21 +274,21 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="newCustomer_label_header" min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="customer_label_header" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="newCustomer_textField_name" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="newCustomer_label_name" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="customer_textField_name" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="customer_label_name" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="newCustomer_textField_balance" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="newCustomer_label_balance" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="customer_textField_balance" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="customer_label_balance" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="newCustomer_button_cancel" alignment="3" pref="81" max="32767" attributes="0"/>
-                      <Component id="newCustomer_button_create" alignment="3" pref="81" max="32767" attributes="0"/>
+                      <Component id="customer_button_cancel" alignment="3" pref="81" max="32767" attributes="0"/>
+                      <Component id="customer_button_done" alignment="3" pref="81" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -372,29 +296,29 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="newCustomer_label_header">
+        <Component class="javax.swing.JLabel" name="customer_label_header">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="48" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="New Customer"/>
+            <Property name="text" type="java.lang.String" value="Customer"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="newCustomer_textField_name">
+        <Component class="javax.swing.JTextField" name="customer_textField_name">
         </Component>
-        <Component class="javax.swing.JButton" name="newCustomer_button_create">
+        <Component class="javax.swing.JButton" name="customer_button_done">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Create"/>
+            <Property name="text" type="java.lang.String" value="Done"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newCustomer_button_createActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customer_button_doneActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="newCustomer_button_cancel">
+        <Component class="javax.swing.JButton" name="customer_button_cancel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -402,10 +326,10 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newCustomer_button_cancelActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customer_button_cancelActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="newCustomer_label_name">
+        <Component class="javax.swing.JLabel" name="customer_label_name">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="1"/>
@@ -413,12 +337,12 @@
             <Property name="text" type="java.lang.String" value="Name:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="newCustomer_textField_balance">
+        <Component class="javax.swing.JTextField" name="customer_textField_balance">
           <Properties>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="newCustomer_label_balance">
+        <Component class="javax.swing.JLabel" name="customer_label_balance">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="1"/>
@@ -428,7 +352,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDialog" name="dialog_newModel">
+    <Container class="javax.swing.JDialog" name="dialog_model">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[300, 280]"/>
@@ -439,36 +363,36 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="newModel_label_header" max="32767" attributes="0"/>
+              <Component id="model_label_header" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="newModel_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="model_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newModel_button_create" max="32767" attributes="0"/>
+                          <Component id="model_button_done" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="newModel_separator_createToRemove" max="32767" attributes="0"/>
-                              <Component id="newModel_button_add" alignment="1" max="32767" attributes="0"/>
+                              <Component id="model_separator_1" max="32767" attributes="0"/>
+                              <Component id="model_button_add" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="newModel_label_quantity" min="-2" max="-2" attributes="0"/>
-                                      <Component id="newModel_button_newPiece" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
-                                      <Component id="newModel_button_newFilament" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <Component id="model_label_quantity" min="-2" max="-2" attributes="0"/>
+                                      <Component id="model_button_newPiece" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <Component id="model_button_newFilament" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="newModel_comboBox_piece" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="newModel_comboBox_filament" pref="132" max="32767" attributes="0"/>
-                                      <Component id="newModel_spinner_quantity" max="32767" attributes="0"/>
+                                      <Component id="model_comboBox_piece" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="model_comboBox_filament" pref="132" max="32767" attributes="0"/>
+                                      <Component id="model_spinner_quantity" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="newModel_button_removeSelected" alignment="0" max="32767" attributes="0"/>
+                              <Component id="model_button_removeSelected" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newModel_scrollPane_pieces" min="-2" pref="345" max="-2" attributes="0"/>
+                          <Component id="model_scrollPane_pieces" min="-2" pref="345" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -478,38 +402,38 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="newModel_label_header" min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="model_label_header" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="newModel_scrollPane_pieces" pref="261" max="32767" attributes="0"/>
+                      <Component id="model_scrollPane_pieces" pref="261" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="newModel_comboBox_piece" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newModel_button_newPiece" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="model_comboBox_piece" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="model_button_newPiece" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="newModel_comboBox_filament" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newModel_button_newFilament" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="model_comboBox_filament" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="model_button_newFilament" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="newModel_spinner_quantity" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newModel_label_quantity" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="model_spinner_quantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="model_label_quantity" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="newModel_button_add" min="-2" max="-2" attributes="0"/>
+                          <Component id="model_button_add" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newModel_separator_createToRemove" min="-2" pref="10" max="-2" attributes="0"/>
+                          <Component id="model_separator_1" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="newModel_button_removeSelected" min="-2" max="-2" attributes="0"/>
+                          <Component id="model_button_removeSelected" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="newModel_button_cancel" pref="68" max="32767" attributes="0"/>
-                      <Component id="newModel_button_create" max="32767" attributes="0"/>
+                      <Component id="model_button_cancel" pref="68" max="32767" attributes="0"/>
+                      <Component id="model_button_done" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -517,24 +441,24 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="newModel_label_header">
+        <Component class="javax.swing.JLabel" name="model_label_header">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="48" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="New Model"/>
+            <Property name="text" type="java.lang.String" value="Model"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="newModel_button_create">
+        <Component class="javax.swing.JButton" name="model_button_done">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Create"/>
+            <Property name="text" type="java.lang.String" value="Done"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="newModel_button_cancel">
+        <Component class="javax.swing.JButton" name="model_button_cancel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -542,17 +466,17 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newModel_button_cancelActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="model_button_cancelActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="newModel_scrollPane_pieces">
+        <Container class="javax.swing.JScrollPane" name="model_scrollPane_pieces">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="newModel_table_pieces">
+            <Component class="javax.swing.JTable" name="model_table_pieces">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Consolas" size="12" style="0"/>
@@ -590,7 +514,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="newModel_button_add">
+        <Component class="javax.swing.JButton" name="model_button_add">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -598,7 +522,7 @@
             <Property name="text" type="java.lang.String" value="Add"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="newModel_button_removeSelected">
+        <Component class="javax.swing.JButton" name="model_button_removeSelected">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -606,14 +530,14 @@
             <Property name="text" type="java.lang.String" value="Remove Selected"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="newModel_spinner_quantity">
+        <Component class="javax.swing.JSpinner" name="model_spinner_quantity">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="newModel_comboBox_piece">
+        <Component class="javax.swing.JComboBox" name="model_comboBox_piece">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -628,7 +552,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="newModel_label_quantity">
+        <Component class="javax.swing.JLabel" name="model_label_quantity">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="1"/>
@@ -636,9 +560,9 @@
             <Property name="text" type="java.lang.String" value="Quantity:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSeparator" name="newModel_separator_createToRemove">
+        <Component class="javax.swing.JSeparator" name="model_separator_1">
         </Component>
-        <Component class="javax.swing.JComboBox" name="newModel_comboBox_filament">
+        <Component class="javax.swing.JComboBox" name="model_comboBox_filament">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -653,7 +577,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="newModel_button_newPiece">
+        <Component class="javax.swing.JButton" name="model_button_newPiece">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -661,10 +585,10 @@
             <Property name="text" type="java.lang.String" value="New"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newModel_button_newPieceActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="model_button_newPieceActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="newModel_button_newFilament">
+        <Component class="javax.swing.JButton" name="model_button_newFilament">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="12" style="0"/>
@@ -672,22 +596,22 @@
             <Property name="text" type="java.lang.String" value="New"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newModel_button_newFilamentActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="model_button_newFilamentActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDialog" name="dialog_newFilament">
+    <Container class="javax.swing.JDialog" name="dialog_filament">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="editOrder_label_header1" alignment="0" pref="334" max="32767" attributes="0"/>
+              <Component id="filament_label_header" alignment="0" pref="334" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_cancel1" min="-2" pref="111" max="-2" attributes="0"/>
+                  <Component id="filament_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_apply1" max="32767" attributes="0"/>
+                  <Component id="filament_button_done" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -695,11 +619,11 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="editOrder_label_header1" min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="filament_label_header" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editOrder_button_apply1" alignment="0" pref="81" max="32767" attributes="0"/>
-                      <Component id="editOrder_button_cancel1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="filament_button_done" alignment="0" pref="81" max="32767" attributes="0"/>
+                      <Component id="filament_button_cancel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -707,7 +631,67 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="editOrder_label_header1">
+        <Component class="javax.swing.JLabel" name="filament_label_header">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="48" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="Filament"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="filament_button_done">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="24" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Done"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="filament_button_cancel">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="24" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cancel"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filament_button_cancelActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JDialog" name="dialog_piece">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="piece_label_header" alignment="0" pref="334" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="piece_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="piece_button_done" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="piece_label_header" min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="piece_button_done" alignment="0" pref="81" max="32767" attributes="0"/>
+                      <Component id="piece_button_cancel" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="piece_label_header">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="48" style="1"/>
@@ -716,7 +700,7 @@
             <Property name="text" type="java.lang.String" value="Edit Order"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_apply1">
+        <Component class="javax.swing.JButton" name="piece_button_done">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -724,7 +708,7 @@
             <Property name="text" type="java.lang.String" value="Apply"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_cancel1">
+        <Component class="javax.swing.JButton" name="piece_button_cancel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -732,22 +716,22 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editOrder_button_cancel1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="piece_button_cancelActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDialog" name="dialog_newPiece">
+    <Container class="javax.swing.JDialog" name="dialog_material">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="editOrder_label_header2" alignment="0" pref="334" max="32767" attributes="0"/>
+              <Component id="material_label_header" alignment="0" pref="334" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_cancel2" min="-2" pref="111" max="-2" attributes="0"/>
+                  <Component id="material_button_cancel" min="-2" pref="111" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_apply2" max="32767" attributes="0"/>
+                  <Component id="material_button_done" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -755,11 +739,11 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="editOrder_label_header2" min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="material_label_header" min="-2" pref="72" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editOrder_button_apply2" alignment="0" pref="81" max="32767" attributes="0"/>
-                      <Component id="editOrder_button_cancel2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="material_button_done" alignment="0" pref="81" max="32767" attributes="0"/>
+                      <Component id="material_button_cancel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -767,7 +751,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="editOrder_label_header2">
+        <Component class="javax.swing.JLabel" name="material_label_header">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="48" style="1"/>
@@ -776,7 +760,7 @@
             <Property name="text" type="java.lang.String" value="Edit Order"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_apply2">
+        <Component class="javax.swing.JButton" name="material_button_done">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -784,7 +768,7 @@
             <Property name="text" type="java.lang.String" value="Apply"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_cancel2">
+        <Component class="javax.swing.JButton" name="material_button_cancel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="24" style="1"/>
@@ -792,67 +776,7 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editOrder_button_cancel2ActionPerformed"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JDialog" name="dialog_newMaterial">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="editOrder_label_header3" alignment="0" pref="334" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_cancel3" min="-2" pref="111" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editOrder_button_apply3" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="editOrder_label_header3" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editOrder_button_apply3" alignment="0" pref="81" max="32767" attributes="0"/>
-                      <Component id="editOrder_button_cancel3" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="editOrder_label_header3">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="48" style="1"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Edit Order"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_apply3">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="24" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Apply"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="editOrder_button_cancel3">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="24" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editOrder_button_cancel3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="material_button_cancelActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -916,44 +840,117 @@
             </Property>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menuItem_customers">
+            <Menu class="javax.swing.JMenu" name="manage_orders">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Customers"/>
+                <Property name="text" type="java.lang.String" value="Orders"/>
               </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuItem_filaments">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Filaments"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItem_filamentsActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuItem_materials">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Materials"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuItem_models">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Models"/>
-              </Properties>
-            </MenuItem>
-            <Menu class="javax.swing.JMenu" name="jMenu1">
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="manage_orders_new">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manage_orders_newActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="manage_orders_edit">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Edit"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="manage_orders_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="manage_customers">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Customers"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+                <MenuItem class="javax.swing.JMenuItem" name="manage_customers_new">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+                    <Property name="text" type="java.lang.String" value="New"/>
                   </Properties>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+                <Menu class="javax.swing.JMenu" name="manage_customers_edit">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jMenuItem2"/>
+                    <Property name="text" type="java.lang.String" value="Edit"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="manage_customers_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="manage_models">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Models"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="manage_models_new">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
                   </Properties>
                 </MenuItem>
+                <Menu class="javax.swing.JMenu" name="manage_models_edit">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Edit"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="manage_models_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="manage_filaments">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Filaments"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="manage_filaments_new">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="manage_filaments_edit">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Edit"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="manage_filaments_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                </Menu>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="manage_materials">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Materials"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="manage_materials_new">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <Menu class="javax.swing.JMenu" name="manage_materials_edit">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Edit"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="manage_materials_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                </Menu>
               </SubComponents>
             </Menu>
           </SubComponents>
@@ -1012,18 +1009,15 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="button_newOrder" alignment="0" max="32767" attributes="0"/>
-                      <Component id="button_editSelected" alignment="0" max="32767" attributes="0"/>
-                      <Component id="button_showSummary" alignment="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="button_showSummary" min="-2" pref="100" max="-2" attributes="0"/>
                   <Component id="radioButton_showAll" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="radioButton_showCompleted" min="-2" max="-2" attributes="0"/>
                   <Component id="radioButton_showIncomplete" min="-2" max="-2" attributes="0"/>
                   <Component id="label_show" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="scrollPane_details" min="-2" pref="258" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollPane_orders" pref="853" max="32767" attributes="0"/>
+              <Component id="scrollPane_orders" pref="723" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -1034,10 +1028,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="button_newOrder" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="button_editSelected" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="label_show" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="radioButton_showAll" min="-2" max="-2" attributes="0"/>
@@ -1045,7 +1035,9 @@
                       <Component id="radioButton_showCompleted" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="radioButton_showIncomplete" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="scrollPane_details" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="button_showSummary" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="scrollPane_orders" pref="574" max="32767" attributes="0"/>
@@ -1125,28 +1117,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="button_newOrder">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Consolas" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="New Order"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_newOrderActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="button_editSelected">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Consolas" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Edit Order"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_editSelectedActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="button_showSummary">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1199,5 +1169,26 @@
         <Property name="text" type="java.lang.String" value="Show:"/>
       </Properties>
     </Component>
+    <Container class="javax.swing.JScrollPane" name="scrollPane_details">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="textArea_details">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="10" style="0"/>
+            </Property>
+            <Property name="lineWrap" type="boolean" value="true"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

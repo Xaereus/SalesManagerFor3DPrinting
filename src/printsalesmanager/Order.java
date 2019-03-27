@@ -5,7 +5,7 @@
  */
 package printsalesmanager;
 
-import java.util.Date;
+import java.util.Calendar;
 
 
 /**
@@ -14,50 +14,59 @@ import java.util.Date;
  */
 public class Order{
 
-    private Date dateOrdered, datePrinted, dateGiven, datePaid;
+    private Calendar dateOrdered, datePrinted, dateGiven, datePaid;
 
-    // Might remove the customer name. Keeping it would allow for using the 
-    // orders to sort the table, rather than searching through the customers.
     private String customer;
-    private final Model product;
-    private final int quantity; //Amount of this print
+    private String model;
+    private String name;
 
-    public Order(Date dateOrdered, String customer, Model product, int quantity){
+    private int quantity; //Amount of this print
+
+    /**
+     *
+     * @param dateOrdered
+     * @param customer
+     * @param model
+     * @param quantity
+     * @param name
+     */
+    public Order(Calendar dateOrdered, String customer, String model, int quantity, String name){
         this.dateOrdered = dateOrdered;
         this.customer = customer;
-        this.product = product;
+        this.model = model;
         this.quantity = quantity;
+        this.name = name;
     }
 
-    public Date getDateOrdered(){
+    public Calendar getDateOrdered(){
         return dateOrdered;
     }
 
-    public void setDateOrdered(Date dateOrdered){
+    public void setDateOrdered(Calendar dateOrdered){
         this.dateOrdered = dateOrdered;
     }
 
-    public Date getDatePrinted(){
+    public Calendar getDatePrinted(){
         return datePrinted;
     }
 
-    public void setDatePrinted(Date datePrinted){
+    public void setDatePrinted(Calendar datePrinted){
         this.datePrinted = datePrinted;
     }
 
-    public Date getDateGiven(){
+    public Calendar getDateGiven(){
         return dateGiven;
     }
 
-    public void setDateGiven(Date dateGiven){
+    public void setDateGiven(Calendar dateGiven){
         this.dateGiven = dateGiven;
     }
 
-    public Date getDatePaid(){
+    public Calendar getDatePaid(){
         return datePaid;
     }
 
-    public void setDatePaid(Date datePaid){
+    public void setDatePaid(Calendar datePaid){
         this.datePaid = datePaid;
     }
 
@@ -67,6 +76,34 @@ public class Order{
 
     public void setCustomer(String customer){
         this.customer = customer;
+    }
+
+    public String getModel(){
+        return model;
+    }
+
+    public void setModel(String model){
+        this.model = model;
+    }
+
+    public String getName(){
+        return name;
+    }
+    
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+
+    public String getProfit(){
+        return "WIP";
     }
 
 }

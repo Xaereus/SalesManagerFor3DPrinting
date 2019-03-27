@@ -26,13 +26,17 @@ import java.util.logging.Logger;
  */
 public final class DataManager{
 
-    private Map<String, Customer> customers;
     private Map<String, Order> orders;
+    private Map<String, Customer> customers;
     private Map<String, Model> models;
     private Map<String, Piece> pieces;
     private Map<String, Filament> filaments;
     private Map<String, Material> materials;
 
+    /*
+     * Where the .json files will be saved/are saved. Will be implemented with
+     * the save as system to change where files are to be saved.
+     */
     private Map<String, String> saveLocations;
 
     public DataManager(){
@@ -51,34 +55,89 @@ public final class DataManager{
         }
     }
 
-    public void putCustomer(Customer customer){
-        customers.put(customer.getName(), customer);
-    }
-
-    public Collection<Customer> getCustomers(){
-        return customers.values();
-    }
-
+    //=================================ORDERS===================================
     public Collection<Order> getOrders(){
         return orders.values();
     }
 
-    public Collection<Model> getFullModels(){
-        return models.values();
+    public Order getOrder(String key){
+        return orders.get(key);
     }
 
+    public void putOrder(Order order){
+        orders.put(order.getName(), order);
+    }
+
+    //=================================CUSTOMERS================================
+    public Collection<Customer> getCustomers(){
+        return customers.values();
+    }
+
+    public Customer getCustomer(String key){
+        return customers.get(key);
+    }
+
+    public void putCustomer(Customer customer){
+        customers.put(customer.getName(), customer);
+    }
+
+    //=================================MODELS===================================
+    public Collection<Model> getModels(){
+        return models.values();
+    }
+    
+    public Collection<String> getModelNames(){
+        return models.keySet();
+    }
+
+    public Model getModel(String key){
+        return models.get(key);
+    }
+
+    public void putModel(Model model){
+        models.put(model.getName(), model);
+    }
+
+    //=================================PIECES===================================
     public Collection<Piece> getPieces(){
         return pieces.values();
     }
 
+    public Piece getPiece(String key){
+        return pieces.get(key);
+    }
+
+    public void putPiece(Piece piece){
+        pieces.put(piece.getName(), piece);
+    }
+
+    //=================================FILAMENTS================================
     public Collection<Filament> getFilaments(){
         return filaments.values();
     }
 
+    public Filament getFilament(String key){
+        return filaments.get(key);
+    }
+
+    public void putFilament(Filament filament){
+        filaments.put(filament.getName(), filament);
+    }
+
+    //=================================MATERIALS================================
     public Collection<Material> getMaterials(){
         return materials.values();
     }
 
+    public Material getMaterial(String key){
+        return materials.get(key);
+    }
+
+    public void putMaterial(Material material){
+        materials.put(material.getName(), material);
+    }
+
+    //=================================I/O======================================
     /**
      * Checks all the save directories to insure they exist, creating them if
      * they do not exist.
@@ -94,7 +153,7 @@ public final class DataManager{
     public void saveAll() throws IOException{
         saveCustomers();
         saveOrders();
-        saveFullModels();
+        saveModels();
         savePieces();
         saveFilaments();
         saveMaterials();
@@ -103,7 +162,7 @@ public final class DataManager{
     public void loadAll() throws IOException{
         loadCustomers();
         loadOrders();
-        loadFullModels();
+        loadModels();
         loadPieces();
         loadFilaments();
         loadMaterials();
@@ -173,7 +232,7 @@ public final class DataManager{
      *
      * @throws java.io.IOException
      */
-    public void saveFullModels() throws IOException{
+    public void saveModels() throws IOException{
         try(JsonWriter writer = new JsonWriter(new FileWriter("saves\\models.json"))){
             Gson gson = new Gson();
             gson.toJson(models, new TypeToken<HashMap<String, Model>>(){
@@ -186,7 +245,7 @@ public final class DataManager{
      *
      * @throws IOException
      */
-    public void loadFullModels() throws IOException{
+    public void loadModels() throws IOException{
         File dir = new File("saves\\models.json");
         if(dir.exists())
             try(JsonReader reader = new JsonReader(new FileReader(dir))){

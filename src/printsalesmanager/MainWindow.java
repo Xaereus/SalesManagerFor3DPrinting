@@ -8,10 +8,15 @@ package printsalesmanager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DateFormatter;
 
 
 /**
@@ -19,8 +24,8 @@ import javax.swing.SwingUtilities;
  * @author Xaereus
  */
 public final class MainWindow extends javax.swing.JFrame{
-
-    private final DataManager dataMan = new DataManager();
+    
+    public static final DataManager DATAMAN = new DataManager();
 
     /**
      * Creates new form MainWindow
@@ -28,19 +33,19 @@ public final class MainWindow extends javax.swing.JFrame{
     public MainWindow(){
         initComponents();
         fullRefresh();
-
+        
         table_orders.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent me){
                 if(SwingUtilities.isRightMouseButton(me)){
                     int row = table_orders.rowAtPoint(me.getPoint());
-
+                    
                     table_orders.clearSelection();
                     table_orders.addRowSelectionInterval(row, row);
-                    System.out.println("Test.");
+                    updateDetails(row);
                 }
             }
-
+            
         });
     }
 
@@ -55,70 +60,66 @@ public final class MainWindow extends javax.swing.JFrame{
     private void initComponents() {
 
         jFileChooser1 = new javax.swing.JFileChooser();
-        dialog_newOrder = new javax.swing.JDialog();
-        newOrder_label_header = new javax.swing.JLabel();
-        newOrder_comboBox_customer = new javax.swing.JComboBox<>();
-        newOrder_comboBox_model = new javax.swing.JComboBox<>();
-        newOrder_spinner_quantity = new javax.swing.JSpinner();
-        newOrder_label_quantity = new javax.swing.JLabel();
-        newOrder_comboBox_year = new javax.swing.JComboBox<>();
-        newOrder_comboBox_month = new javax.swing.JComboBox<>();
-        newOrder_comboBox_day = new javax.swing.JComboBox<>();
-        newOrder_button_newCustomer = new javax.swing.JButton();
-        newOrder_button_newModel = new javax.swing.JButton();
-        newOrder_label_orderedOn = new javax.swing.JLabel();
-        newOrder_button_createOrder = new javax.swing.JButton();
-        newOrder_button_cancelOrder = new javax.swing.JButton();
-        dialog_editOrder = new javax.swing.JDialog();
-        editOrder_label_header = new javax.swing.JLabel();
-        editOrder_button_apply = new javax.swing.JButton();
-        editOrder_button_cancel = new javax.swing.JButton();
+        dialog_order = new javax.swing.JDialog();
+        order_label_header = new javax.swing.JLabel();
+        order_comboBox_customer = new javax.swing.JComboBox<>();
+        order_comboBox_model = new javax.swing.JComboBox<>();
+        order_spinner_quantity = new javax.swing.JSpinner();
+        order_label_quantity = new javax.swing.JLabel();
+        order_button_newCustomer = new javax.swing.JButton();
+        order_button_newModel = new javax.swing.JButton();
+        order_label_orderedOn = new javax.swing.JLabel();
+        order_button_done = new javax.swing.JButton();
+        order_button_cancel = new javax.swing.JButton();
+        order_spinner_date = new javax.swing.JSpinner();
+        order_label_name = new javax.swing.JLabel();
+        order_textField_name = new javax.swing.JTextField();
         dialog_summary = new javax.swing.JDialog();
-        dialog_newCustomer = new javax.swing.JDialog();
-        newCustomer_label_header = new javax.swing.JLabel();
-        newCustomer_textField_name = new javax.swing.JTextField();
-        newCustomer_button_create = new javax.swing.JButton();
-        newCustomer_button_cancel = new javax.swing.JButton();
-        newCustomer_label_name = new javax.swing.JLabel();
-        newCustomer_textField_balance = new javax.swing.JTextField();
-        newCustomer_label_balance = new javax.swing.JLabel();
-        dialog_newModel = new javax.swing.JDialog();
-        newModel_label_header = new javax.swing.JLabel();
-        newModel_button_create = new javax.swing.JButton();
-        newModel_button_cancel = new javax.swing.JButton();
-        newModel_scrollPane_pieces = new javax.swing.JScrollPane();
-        newModel_table_pieces = new javax.swing.JTable();
-        newModel_button_add = new javax.swing.JButton();
-        newModel_button_removeSelected = new javax.swing.JButton();
-        newModel_spinner_quantity = new javax.swing.JSpinner();
-        newModel_comboBox_piece = new javax.swing.JComboBox<>();
-        newModel_label_quantity = new javax.swing.JLabel();
-        newModel_separator_createToRemove = new javax.swing.JSeparator();
-        newModel_comboBox_filament = new javax.swing.JComboBox<>();
-        newModel_button_newPiece = new javax.swing.JButton();
-        newModel_button_newFilament = new javax.swing.JButton();
-        dialog_newFilament = new javax.swing.JDialog();
-        editOrder_label_header1 = new javax.swing.JLabel();
-        editOrder_button_apply1 = new javax.swing.JButton();
-        editOrder_button_cancel1 = new javax.swing.JButton();
-        dialog_newPiece = new javax.swing.JDialog();
-        editOrder_label_header2 = new javax.swing.JLabel();
-        editOrder_button_apply2 = new javax.swing.JButton();
-        editOrder_button_cancel2 = new javax.swing.JButton();
-        dialog_newMaterial = new javax.swing.JDialog();
-        editOrder_label_header3 = new javax.swing.JLabel();
-        editOrder_button_apply3 = new javax.swing.JButton();
-        editOrder_button_cancel3 = new javax.swing.JButton();
+        dialog_customer = new javax.swing.JDialog();
+        customer_label_header = new javax.swing.JLabel();
+        customer_textField_name = new javax.swing.JTextField();
+        customer_button_done = new javax.swing.JButton();
+        customer_button_cancel = new javax.swing.JButton();
+        customer_label_name = new javax.swing.JLabel();
+        customer_textField_balance = new javax.swing.JTextField();
+        customer_label_balance = new javax.swing.JLabel();
+        dialog_model = new javax.swing.JDialog();
+        model_label_header = new javax.swing.JLabel();
+        model_button_done = new javax.swing.JButton();
+        model_button_cancel = new javax.swing.JButton();
+        model_scrollPane_pieces = new javax.swing.JScrollPane();
+        model_table_pieces = new javax.swing.JTable();
+        model_button_add = new javax.swing.JButton();
+        model_button_removeSelected = new javax.swing.JButton();
+        model_spinner_quantity = new javax.swing.JSpinner();
+        model_comboBox_piece = new javax.swing.JComboBox<>();
+        model_label_quantity = new javax.swing.JLabel();
+        model_separator_1 = new javax.swing.JSeparator();
+        model_comboBox_filament = new javax.swing.JComboBox<>();
+        model_button_newPiece = new javax.swing.JButton();
+        model_button_newFilament = new javax.swing.JButton();
+        dialog_filament = new javax.swing.JDialog();
+        filament_label_header = new javax.swing.JLabel();
+        filament_button_done = new javax.swing.JButton();
+        filament_button_cancel = new javax.swing.JButton();
+        dialog_piece = new javax.swing.JDialog();
+        piece_label_header = new javax.swing.JLabel();
+        piece_button_done = new javax.swing.JButton();
+        piece_button_cancel = new javax.swing.JButton();
+        dialog_material = new javax.swing.JDialog();
+        material_label_header = new javax.swing.JLabel();
+        material_button_done = new javax.swing.JButton();
+        material_button_cancel = new javax.swing.JButton();
         buttonGroup_showInTable = new javax.swing.ButtonGroup();
         scrollPane_orders = new javax.swing.JScrollPane();
         table_orders = new javax.swing.JTable();
-        button_newOrder = new javax.swing.JButton();
-        button_editSelected = new javax.swing.JButton();
         button_showSummary = new javax.swing.JButton();
         radioButton_showAll = new javax.swing.JRadioButton();
         radioButton_showCompleted = new javax.swing.JRadioButton();
         radioButton_showIncomplete = new javax.swing.JRadioButton();
         label_show = new javax.swing.JLabel();
+        scrollPane_details = new javax.swing.JScrollPane();
+        textArea_details = new javax.swing.JTextArea();
         menuBar_mainFrame = new javax.swing.JMenuBar();
         menu_file = new javax.swing.JMenu();
         menuItem_load = new javax.swing.JMenuItem();
@@ -126,173 +127,153 @@ public final class MainWindow extends javax.swing.JFrame{
         menuItem_saveAs = new javax.swing.JMenuItem();
         menuItem_export = new javax.swing.JMenuItem();
         menu_manage = new javax.swing.JMenu();
-        menuItem_customers = new javax.swing.JMenuItem();
-        menuItem_filaments = new javax.swing.JMenuItem();
-        menuItem_materials = new javax.swing.JMenuItem();
-        menuItem_models = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        manage_orders = new javax.swing.JMenu();
+        manage_orders_new = new javax.swing.JMenuItem();
+        manage_orders_edit = new javax.swing.JMenu();
+        manage_orders_delete = new javax.swing.JMenu();
+        manage_customers = new javax.swing.JMenu();
+        manage_customers_new = new javax.swing.JMenuItem();
+        manage_customers_edit = new javax.swing.JMenu();
+        manage_customers_delete = new javax.swing.JMenu();
+        manage_models = new javax.swing.JMenu();
+        manage_models_new = new javax.swing.JMenuItem();
+        manage_models_edit = new javax.swing.JMenu();
+        manage_models_delete = new javax.swing.JMenu();
+        manage_filaments = new javax.swing.JMenu();
+        manage_filaments_new = new javax.swing.JMenuItem();
+        manage_filaments_edit = new javax.swing.JMenu();
+        manage_filaments_delete = new javax.swing.JMenu();
+        manage_materials = new javax.swing.JMenu();
+        manage_materials_new = new javax.swing.JMenuItem();
+        manage_materials_edit = new javax.swing.JMenu();
+        manage_materials_delete = new javax.swing.JMenu();
         menu_view = new javax.swing.JMenu();
         cbMenuItem_condForm = new javax.swing.JCheckBoxMenuItem();
         cbMenuItem_darkTheme = new javax.swing.JCheckBoxMenuItem();
 
-        dialog_newOrder.setMinimumSize(new java.awt.Dimension(300, 280));
-        dialog_newOrder.setResizable(false);
+        dialog_order.setMinimumSize(new java.awt.Dimension(300, 350));
+        dialog_order.setPreferredSize(new java.awt.Dimension(300, 350));
+        dialog_order.setResizable(false);
 
-        newOrder_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        newOrder_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        newOrder_label_header.setText("New Order");
+        order_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        order_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        order_label_header.setText("Order");
 
-        newOrder_comboBox_customer.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_comboBox_customer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer" }));
+        order_comboBox_customer.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        newOrder_comboBox_model.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_comboBox_model.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Model" }));
+        order_comboBox_model.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        newOrder_spinner_quantity.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        order_spinner_quantity.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        newOrder_label_quantity.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        newOrder_label_quantity.setText("Quantity:");
+        order_label_quantity.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        order_label_quantity.setText("Quantity:");
 
-        newOrder_comboBox_year.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_comboBox_year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year" }));
-
-        newOrder_comboBox_month.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_comboBox_month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Month" }));
-
-        newOrder_comboBox_day.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_comboBox_day.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Day" }));
-
-        newOrder_button_newCustomer.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_button_newCustomer.setText("New");
-        newOrder_button_newCustomer.addActionListener(new java.awt.event.ActionListener() {
+        order_button_newCustomer.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        order_button_newCustomer.setText("New");
+        order_button_newCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newOrder_button_newCustomerActionPerformed(evt);
+                order_button_newCustomerActionPerformed(evt);
             }
         });
 
-        newOrder_button_newModel.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newOrder_button_newModel.setText("New");
-        newOrder_button_newModel.addActionListener(new java.awt.event.ActionListener() {
+        order_button_newModel.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        order_button_newModel.setText("New");
+        order_button_newModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newOrder_button_newModelActionPerformed(evt);
+                order_button_newModelActionPerformed(evt);
             }
         });
 
-        newOrder_label_orderedOn.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        newOrder_label_orderedOn.setText("Ordered on:");
+        order_label_orderedOn.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        order_label_orderedOn.setText("Ordered on:");
 
-        newOrder_button_createOrder.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newOrder_button_createOrder.setText("Create");
-
-        newOrder_button_cancelOrder.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newOrder_button_cancelOrder.setText("Cancel");
-        newOrder_button_cancelOrder.addActionListener(new java.awt.event.ActionListener() {
+        order_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        order_button_done.setText("Done");
+        order_button_done.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newOrder_button_cancelOrderActionPerformed(evt);
+                order_button_doneActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout dialog_newOrderLayout = new javax.swing.GroupLayout(dialog_newOrder.getContentPane());
-        dialog_newOrder.getContentPane().setLayout(dialog_newOrderLayout);
-        dialog_newOrderLayout.setHorizontalGroup(
-            dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(newOrder_label_header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(dialog_newOrderLayout.createSequentialGroup()
+        order_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        order_button_cancel.setText("Cancel");
+        order_button_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                order_button_cancelActionPerformed(evt);
+            }
+        });
+
+        order_spinner_date.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        order_spinner_date.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1490547180000L), new java.util.Date(), java.util.Calendar.DAY_OF_MONTH));
+
+        order_label_name.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        order_label_name.setText("Name:");
+
+        javax.swing.GroupLayout dialog_orderLayout = new javax.swing.GroupLayout(dialog_order.getContentPane());
+        dialog_order.getContentPane().setLayout(dialog_orderLayout);
+        dialog_orderLayout.setHorizontalGroup(
+            dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(order_label_header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(dialog_orderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                        .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(newOrder_comboBox_customer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newOrder_comboBox_model, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                                .addComponent(newOrder_label_quantity)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                                .addComponent(newOrder_label_orderedOn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(newOrder_comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(newOrder_comboBox_month, 0, 80, Short.MAX_VALUE)))
+                .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialog_orderLayout.createSequentialGroup()
+                        .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(order_comboBox_customer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(order_comboBox_model, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(dialog_orderLayout.createSequentialGroup()
+                                .addComponent(order_label_quantity)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(newOrder_comboBox_day, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newOrder_button_newCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newOrder_button_newModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newOrder_spinner_quantity, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                        .addComponent(newOrder_button_cancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(order_button_newCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(order_button_newModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(order_spinner_quantity)))
+                    .addGroup(dialog_orderLayout.createSequentialGroup()
+                        .addComponent(order_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newOrder_button_createOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        dialog_newOrderLayout.setVerticalGroup(
-            dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                .addComponent(newOrder_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(dialog_newOrderLayout.createSequentialGroup()
-                        .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newOrder_comboBox_customer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newOrder_button_newCustomer))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newOrder_comboBox_model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newOrder_button_newModel))
+                        .addComponent(order_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dialog_orderLayout.createSequentialGroup()
+                        .addComponent(order_label_orderedOn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(newOrder_label_quantity))
-                    .addComponent(newOrder_spinner_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(order_spinner_date, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+                    .addGroup(dialog_orderLayout.createSequentialGroup()
+                        .addComponent(order_label_name)
+                        .addGap(54, 54, 54)
+                        .addComponent(order_textField_name)))
+                .addContainerGap())
+        );
+        dialog_orderLayout.setVerticalGroup(
+            dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_orderLayout.createSequentialGroup()
+                .addComponent(order_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(dialog_orderLayout.createSequentialGroup()
+                        .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(order_comboBox_customer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(order_button_newCustomer))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(order_comboBox_model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(order_button_newModel))
+                        .addGap(27, 27, 27))
+                    .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(order_spinner_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(order_label_quantity)))
                 .addGap(5, 5, 5)
-                .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newOrder_label_orderedOn)
-                    .addComponent(newOrder_comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newOrder_comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newOrder_comboBox_day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(order_label_orderedOn)
+                    .addComponent(order_spinner_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dialog_newOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newOrder_button_createOrder, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(newOrder_button_cancelOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        editOrder_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        editOrder_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        editOrder_label_header.setText("Edit Order");
-
-        editOrder_button_apply.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_apply.setText("Apply");
-
-        editOrder_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_cancel.setText("Cancel");
-        editOrder_button_cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editOrder_button_cancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout dialog_editOrderLayout = new javax.swing.GroupLayout(dialog_editOrder.getContentPane());
-        dialog_editOrder.getContentPane().setLayout(dialog_editOrderLayout);
-        dialog_editOrderLayout.setHorizontalGroup(
-            dialog_editOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(editOrder_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-            .addGroup(dialog_editOrderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(editOrder_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(order_textField_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(order_label_name))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editOrder_button_apply, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        dialog_editOrderLayout.setVerticalGroup(
-            dialog_editOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_editOrderLayout.createSequentialGroup()
-                .addComponent(editOrder_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(136, 136, 136)
-                .addGroup(dialog_editOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editOrder_button_apply, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(editOrder_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(dialog_orderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(order_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(order_button_done, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout dialog_summaryLayout = new javax.swing.GroupLayout(dialog_summary.getContentPane());
@@ -306,95 +287,95 @@ public final class MainWindow extends javax.swing.JFrame{
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        newCustomer_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        newCustomer_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        newCustomer_label_header.setText("New Customer");
+        customer_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        customer_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        customer_label_header.setText("Customer");
 
-        newCustomer_button_create.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newCustomer_button_create.setText("Create");
-        newCustomer_button_create.addActionListener(new java.awt.event.ActionListener() {
+        customer_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        customer_button_done.setText("Done");
+        customer_button_done.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newCustomer_button_createActionPerformed(evt);
+                customer_button_doneActionPerformed(evt);
             }
         });
 
-        newCustomer_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newCustomer_button_cancel.setText("Cancel");
-        newCustomer_button_cancel.addActionListener(new java.awt.event.ActionListener() {
+        customer_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        customer_button_cancel.setText("Cancel");
+        customer_button_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newCustomer_button_cancelActionPerformed(evt);
+                customer_button_cancelActionPerformed(evt);
             }
         });
 
-        newCustomer_label_name.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        newCustomer_label_name.setText("Name:");
+        customer_label_name.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        customer_label_name.setText("Name:");
 
-        newCustomer_textField_balance.setText("0");
+        customer_textField_balance.setText("0");
 
-        newCustomer_label_balance.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        newCustomer_label_balance.setText("Balance:");
+        customer_label_balance.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        customer_label_balance.setText("Balance:");
 
-        javax.swing.GroupLayout dialog_newCustomerLayout = new javax.swing.GroupLayout(dialog_newCustomer.getContentPane());
-        dialog_newCustomer.getContentPane().setLayout(dialog_newCustomerLayout);
-        dialog_newCustomerLayout.setHorizontalGroup(
-            dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(newCustomer_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-            .addGroup(dialog_newCustomerLayout.createSequentialGroup()
+        javax.swing.GroupLayout dialog_customerLayout = new javax.swing.GroupLayout(dialog_customer.getContentPane());
+        dialog_customer.getContentPane().setLayout(dialog_customerLayout);
+        dialog_customerLayout.setHorizontalGroup(
+            dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(customer_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+            .addGroup(dialog_customerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialog_newCustomerLayout.createSequentialGroup()
-                        .addComponent(newCustomer_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialog_customerLayout.createSequentialGroup()
+                        .addComponent(customer_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newCustomer_button_create, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(dialog_newCustomerLayout.createSequentialGroup()
-                        .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(newCustomer_label_balance)
-                            .addComponent(newCustomer_label_name))
+                        .addComponent(customer_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dialog_customerLayout.createSequentialGroup()
+                        .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(customer_label_balance)
+                            .addComponent(customer_label_name))
                         .addGap(10, 10, 10)
-                        .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(newCustomer_textField_name)
-                            .addComponent(newCustomer_textField_balance))))
+                        .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(customer_textField_name)
+                            .addComponent(customer_textField_balance))))
                 .addContainerGap())
         );
-        dialog_newCustomerLayout.setVerticalGroup(
-            dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newCustomerLayout.createSequentialGroup()
-                .addComponent(newCustomer_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+        dialog_customerLayout.setVerticalGroup(
+            dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_customerLayout.createSequentialGroup()
+                .addComponent(customer_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newCustomer_textField_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newCustomer_label_name))
+                .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customer_textField_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customer_label_name))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newCustomer_textField_balance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newCustomer_label_balance))
+                .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customer_textField_balance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customer_label_balance))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(dialog_newCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newCustomer_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(newCustomer_button_create, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                .addGroup(dialog_customerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customer_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(customer_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        dialog_newModel.setMinimumSize(new java.awt.Dimension(300, 280));
-        dialog_newModel.setResizable(false);
+        dialog_model.setMinimumSize(new java.awt.Dimension(300, 280));
+        dialog_model.setResizable(false);
 
-        newModel_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        newModel_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        newModel_label_header.setText("New Model");
+        model_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        model_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        model_label_header.setText("Model");
 
-        newModel_button_create.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newModel_button_create.setText("Create");
+        model_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        model_button_done.setText("Done");
 
-        newModel_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        newModel_button_cancel.setText("Cancel");
-        newModel_button_cancel.addActionListener(new java.awt.event.ActionListener() {
+        model_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        model_button_cancel.setText("Cancel");
+        model_button_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newModel_button_cancelActionPerformed(evt);
+                model_button_cancelActionPerformed(evt);
             }
         });
 
-        newModel_table_pieces.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_table_pieces.setModel(new javax.swing.table.DefaultTableModel(
+        model_table_pieces.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_table_pieces.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -413,216 +394,216 @@ public final class MainWindow extends javax.swing.JFrame{
                 return canEdit [columnIndex];
             }
         });
-        newModel_scrollPane_pieces.setViewportView(newModel_table_pieces);
+        model_scrollPane_pieces.setViewportView(model_table_pieces);
 
-        newModel_button_add.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_button_add.setText("Add");
+        model_button_add.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_button_add.setText("Add");
 
-        newModel_button_removeSelected.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_button_removeSelected.setText("Remove Selected");
+        model_button_removeSelected.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_button_removeSelected.setText("Remove Selected");
 
-        newModel_spinner_quantity.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_spinner_quantity.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        newModel_comboBox_piece.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_comboBox_piece.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Piece" }));
+        model_comboBox_piece.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_comboBox_piece.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Piece" }));
 
-        newModel_label_quantity.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        newModel_label_quantity.setText("Quantity:");
+        model_label_quantity.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        model_label_quantity.setText("Quantity:");
 
-        newModel_comboBox_filament.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_comboBox_filament.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filament" }));
+        model_comboBox_filament.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_comboBox_filament.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filament" }));
 
-        newModel_button_newPiece.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_button_newPiece.setText("New");
-        newModel_button_newPiece.addActionListener(new java.awt.event.ActionListener() {
+        model_button_newPiece.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_button_newPiece.setText("New");
+        model_button_newPiece.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newModel_button_newPieceActionPerformed(evt);
+                model_button_newPieceActionPerformed(evt);
             }
         });
 
-        newModel_button_newFilament.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        newModel_button_newFilament.setText("New");
-        newModel_button_newFilament.addActionListener(new java.awt.event.ActionListener() {
+        model_button_newFilament.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        model_button_newFilament.setText("New");
+        model_button_newFilament.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newModel_button_newFilamentActionPerformed(evt);
+                model_button_newFilamentActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout dialog_newModelLayout = new javax.swing.GroupLayout(dialog_newModel.getContentPane());
-        dialog_newModel.getContentPane().setLayout(dialog_newModelLayout);
-        dialog_newModelLayout.setHorizontalGroup(
-            dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(newModel_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(dialog_newModelLayout.createSequentialGroup()
+        javax.swing.GroupLayout dialog_modelLayout = new javax.swing.GroupLayout(dialog_model.getContentPane());
+        dialog_model.getContentPane().setLayout(dialog_modelLayout);
+        dialog_modelLayout.setHorizontalGroup(
+            dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(model_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(dialog_modelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialog_newModelLayout.createSequentialGroup()
-                        .addComponent(newModel_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialog_modelLayout.createSequentialGroup()
+                        .addComponent(model_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newModel_button_create, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(dialog_newModelLayout.createSequentialGroup()
-                        .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(newModel_separator_createToRemove)
-                            .addComponent(newModel_button_add, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(dialog_newModelLayout.createSequentialGroup()
-                                .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(newModel_label_quantity)
-                                    .addComponent(newModel_button_newPiece, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(newModel_button_newFilament, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(model_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dialog_modelLayout.createSequentialGroup()
+                        .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(model_separator_1)
+                            .addComponent(model_button_add, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(dialog_modelLayout.createSequentialGroup()
+                                .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(model_label_quantity)
+                                    .addComponent(model_button_newPiece, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(model_button_newFilament, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(newModel_comboBox_piece, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(newModel_comboBox_filament, 0, 132, Short.MAX_VALUE)
-                                    .addComponent(newModel_spinner_quantity)))
-                            .addComponent(newModel_button_removeSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(model_comboBox_piece, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(model_comboBox_filament, 0, 132, Short.MAX_VALUE)
+                                    .addComponent(model_spinner_quantity)))
+                            .addComponent(model_button_removeSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newModel_scrollPane_pieces, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(model_scrollPane_pieces, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        dialog_newModelLayout.setVerticalGroup(
-            dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newModelLayout.createSequentialGroup()
-                .addComponent(newModel_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+        dialog_modelLayout.setVerticalGroup(
+            dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_modelLayout.createSequentialGroup()
+                .addComponent(model_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newModel_scrollPane_pieces, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addGroup(dialog_newModelLayout.createSequentialGroup()
-                        .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newModel_comboBox_piece, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newModel_button_newPiece))
+                .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(model_scrollPane_pieces, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addGroup(dialog_modelLayout.createSequentialGroup()
+                        .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(model_comboBox_piece, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(model_button_newPiece))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newModel_comboBox_filament, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newModel_button_newFilament))
+                        .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(model_comboBox_filament, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(model_button_newFilament))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newModel_spinner_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newModel_label_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(model_spinner_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(model_label_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(newModel_button_add)
+                        .addComponent(model_button_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newModel_separator_createToRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(model_separator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newModel_button_removeSelected)
+                        .addComponent(model_button_removeSelected)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dialog_newModelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(newModel_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                    .addComponent(newModel_button_create, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(dialog_modelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(model_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                    .addComponent(model_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        editOrder_label_header1.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        editOrder_label_header1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        editOrder_label_header1.setText("Edit Order");
+        filament_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        filament_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        filament_label_header.setText("Filament");
 
-        editOrder_button_apply1.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_apply1.setText("Apply");
+        filament_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        filament_button_done.setText("Done");
 
-        editOrder_button_cancel1.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_cancel1.setText("Cancel");
-        editOrder_button_cancel1.addActionListener(new java.awt.event.ActionListener() {
+        filament_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        filament_button_cancel.setText("Cancel");
+        filament_button_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editOrder_button_cancel1ActionPerformed(evt);
+                filament_button_cancelActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout dialog_newFilamentLayout = new javax.swing.GroupLayout(dialog_newFilament.getContentPane());
-        dialog_newFilament.getContentPane().setLayout(dialog_newFilamentLayout);
-        dialog_newFilamentLayout.setHorizontalGroup(
-            dialog_newFilamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(editOrder_label_header1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-            .addGroup(dialog_newFilamentLayout.createSequentialGroup()
+        javax.swing.GroupLayout dialog_filamentLayout = new javax.swing.GroupLayout(dialog_filament.getContentPane());
+        dialog_filament.getContentPane().setLayout(dialog_filamentLayout);
+        dialog_filamentLayout.setHorizontalGroup(
+            dialog_filamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(filament_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+            .addGroup(dialog_filamentLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(editOrder_button_cancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filament_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editOrder_button_apply1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(filament_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        dialog_newFilamentLayout.setVerticalGroup(
-            dialog_newFilamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newFilamentLayout.createSequentialGroup()
-                .addComponent(editOrder_label_header1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+        dialog_filamentLayout.setVerticalGroup(
+            dialog_filamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_filamentLayout.createSequentialGroup()
+                .addComponent(filament_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(136, 136, 136)
-                .addGroup(dialog_newFilamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editOrder_button_apply1, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(editOrder_button_cancel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(dialog_filamentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filament_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(filament_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        editOrder_label_header2.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        editOrder_label_header2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        editOrder_label_header2.setText("Edit Order");
+        piece_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        piece_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        piece_label_header.setText("Edit Order");
 
-        editOrder_button_apply2.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_apply2.setText("Apply");
+        piece_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        piece_button_done.setText("Apply");
 
-        editOrder_button_cancel2.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_cancel2.setText("Cancel");
-        editOrder_button_cancel2.addActionListener(new java.awt.event.ActionListener() {
+        piece_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        piece_button_cancel.setText("Cancel");
+        piece_button_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editOrder_button_cancel2ActionPerformed(evt);
+                piece_button_cancelActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout dialog_newPieceLayout = new javax.swing.GroupLayout(dialog_newPiece.getContentPane());
-        dialog_newPiece.getContentPane().setLayout(dialog_newPieceLayout);
-        dialog_newPieceLayout.setHorizontalGroup(
-            dialog_newPieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(editOrder_label_header2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-            .addGroup(dialog_newPieceLayout.createSequentialGroup()
+        javax.swing.GroupLayout dialog_pieceLayout = new javax.swing.GroupLayout(dialog_piece.getContentPane());
+        dialog_piece.getContentPane().setLayout(dialog_pieceLayout);
+        dialog_pieceLayout.setHorizontalGroup(
+            dialog_pieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(piece_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+            .addGroup(dialog_pieceLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(editOrder_button_cancel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(piece_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editOrder_button_apply2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(piece_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        dialog_newPieceLayout.setVerticalGroup(
-            dialog_newPieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newPieceLayout.createSequentialGroup()
-                .addComponent(editOrder_label_header2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+        dialog_pieceLayout.setVerticalGroup(
+            dialog_pieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_pieceLayout.createSequentialGroup()
+                .addComponent(piece_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(136, 136, 136)
-                .addGroup(dialog_newPieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editOrder_button_apply2, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(editOrder_button_cancel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(dialog_pieceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(piece_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(piece_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        editOrder_label_header3.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
-        editOrder_label_header3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        editOrder_label_header3.setText("Edit Order");
+        material_label_header.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        material_label_header.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        material_label_header.setText("Edit Order");
 
-        editOrder_button_apply3.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_apply3.setText("Apply");
+        material_button_done.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        material_button_done.setText("Apply");
 
-        editOrder_button_cancel3.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        editOrder_button_cancel3.setText("Cancel");
-        editOrder_button_cancel3.addActionListener(new java.awt.event.ActionListener() {
+        material_button_cancel.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        material_button_cancel.setText("Cancel");
+        material_button_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editOrder_button_cancel3ActionPerformed(evt);
+                material_button_cancelActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout dialog_newMaterialLayout = new javax.swing.GroupLayout(dialog_newMaterial.getContentPane());
-        dialog_newMaterial.getContentPane().setLayout(dialog_newMaterialLayout);
-        dialog_newMaterialLayout.setHorizontalGroup(
-            dialog_newMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(editOrder_label_header3, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-            .addGroup(dialog_newMaterialLayout.createSequentialGroup()
+        javax.swing.GroupLayout dialog_materialLayout = new javax.swing.GroupLayout(dialog_material.getContentPane());
+        dialog_material.getContentPane().setLayout(dialog_materialLayout);
+        dialog_materialLayout.setHorizontalGroup(
+            dialog_materialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(material_label_header, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+            .addGroup(dialog_materialLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(editOrder_button_cancel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(material_button_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editOrder_button_apply3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(material_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        dialog_newMaterialLayout.setVerticalGroup(
-            dialog_newMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_newMaterialLayout.createSequentialGroup()
-                .addComponent(editOrder_label_header3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+        dialog_materialLayout.setVerticalGroup(
+            dialog_materialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_materialLayout.createSequentialGroup()
+                .addComponent(material_label_header, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(136, 136, 136)
-                .addGroup(dialog_newMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editOrder_button_apply3, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(editOrder_button_cancel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(dialog_materialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(material_button_done, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(material_button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -666,22 +647,6 @@ public final class MainWindow extends javax.swing.JFrame{
         scrollPane_orders.setViewportView(table_orders);
         table_orders.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        button_newOrder.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        button_newOrder.setText("New Order");
-        button_newOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_newOrderActionPerformed(evt);
-            }
-        });
-
-        button_editSelected.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        button_editSelected.setText("Edit Order");
-        button_editSelected.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_editSelectedActionPerformed(evt);
-            }
-        });
-
         button_showSummary.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         button_showSummary.setText("Summary");
         button_showSummary.addActionListener(new java.awt.event.ActionListener() {
@@ -704,6 +669,14 @@ public final class MainWindow extends javax.swing.JFrame{
 
         label_show.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         label_show.setText("Show:");
+
+        textArea_details.setEditable(false);
+        textArea_details.setColumns(20);
+        textArea_details.setFont(new java.awt.Font("Consolas", 0, 10)); // NOI18N
+        textArea_details.setLineWrap(true);
+        textArea_details.setRows(5);
+        textArea_details.setWrapStyleWord(true);
+        scrollPane_details.setViewportView(textArea_details);
 
         menuBar_mainFrame.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
@@ -747,32 +720,75 @@ public final class MainWindow extends javax.swing.JFrame{
         menu_manage.setText("Manage");
         menu_manage.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
-        menuItem_customers.setText("Customers");
-        menu_manage.add(menuItem_customers);
+        manage_orders.setText("Orders");
 
-        menuItem_filaments.setText("Filaments");
-        menuItem_filaments.addActionListener(new java.awt.event.ActionListener() {
+        manage_orders_new.setText("New");
+        manage_orders_new.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItem_filamentsActionPerformed(evt);
+                manage_orders_newActionPerformed(evt);
             }
         });
-        menu_manage.add(menuItem_filaments);
+        manage_orders.add(manage_orders_new);
 
-        menuItem_materials.setText("Materials");
-        menu_manage.add(menuItem_materials);
+        manage_orders_edit.setText("Edit");
+        manage_orders.add(manage_orders_edit);
 
-        menuItem_models.setText("Models");
-        menu_manage.add(menuItem_models);
+        manage_orders_delete.setText("Delete");
+        manage_orders.add(manage_orders_delete);
 
-        jMenu1.setText("Customers");
+        menu_manage.add(manage_orders);
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenu1.add(jMenuItem1);
+        manage_customers.setText("Customers");
 
-        jMenuItem2.setText("jMenuItem2");
-        jMenu1.add(jMenuItem2);
+        manage_customers_new.setText("New");
+        manage_customers.add(manage_customers_new);
 
-        menu_manage.add(jMenu1);
+        manage_customers_edit.setText("Edit");
+        manage_customers.add(manage_customers_edit);
+
+        manage_customers_delete.setText("Delete");
+        manage_customers.add(manage_customers_delete);
+
+        menu_manage.add(manage_customers);
+
+        manage_models.setText("Models");
+
+        manage_models_new.setText("New");
+        manage_models.add(manage_models_new);
+
+        manage_models_edit.setText("Edit");
+        manage_models.add(manage_models_edit);
+
+        manage_models_delete.setText("Delete");
+        manage_models.add(manage_models_delete);
+
+        menu_manage.add(manage_models);
+
+        manage_filaments.setText("Filaments");
+
+        manage_filaments_new.setText("New");
+        manage_filaments.add(manage_filaments_new);
+
+        manage_filaments_edit.setText("Edit");
+        manage_filaments.add(manage_filaments_edit);
+
+        manage_filaments_delete.setText("Delete");
+        manage_filaments.add(manage_filaments_delete);
+
+        menu_manage.add(manage_filaments);
+
+        manage_materials.setText("Materials");
+
+        manage_materials_new.setText("New");
+        manage_materials.add(manage_materials_new);
+
+        manage_materials_edit.setText("Edit");
+        manage_materials.add(manage_materials_edit);
+
+        manage_materials_delete.setText("Delete");
+        manage_materials.add(manage_materials_delete);
+
+        menu_manage.add(manage_materials);
 
         menuBar_mainFrame.add(menu_manage);
 
@@ -803,16 +819,14 @@ public final class MainWindow extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(button_newOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button_editSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button_showSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button_showSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(radioButton_showAll)
                     .addComponent(radioButton_showCompleted)
                     .addComponent(radioButton_showIncomplete)
-                    .addComponent(label_show))
+                    .addComponent(label_show)
+                    .addComponent(scrollPane_details, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane_orders, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                .addComponent(scrollPane_orders, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -821,10 +835,6 @@ public final class MainWindow extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(button_newOrder)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_editSelected)
-                        .addGap(76, 76, 76)
                         .addComponent(label_show)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(radioButton_showAll)
@@ -832,7 +842,9 @@ public final class MainWindow extends javax.swing.JFrame{
                         .addComponent(radioButton_showCompleted)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(radioButton_showIncomplete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(scrollPane_details)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_showSummary))
                     .addComponent(scrollPane_orders, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
                 .addContainerGap())
@@ -841,71 +853,56 @@ public final class MainWindow extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuItem_filamentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_filamentsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuItem_filamentsActionPerformed
-
     private void cbMenuItem_darkThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMenuItem_darkThemeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbMenuItem_darkThemeActionPerformed
 
-    private void button_newOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_newOrderActionPerformed
-        dialog_newOrder.setVisible(true);
-    }//GEN-LAST:event_button_newOrderActionPerformed
+    private void order_button_newCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_button_newCustomerActionPerformed
+        dialog_customer.setVisible(true);
+    }//GEN-LAST:event_order_button_newCustomerActionPerformed
 
-    private void newOrder_button_newCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOrder_button_newCustomerActionPerformed
-        dialog_newCustomer.setVisible(true);
-    }//GEN-LAST:event_newOrder_button_newCustomerActionPerformed
+    private void order_button_newModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_button_newModelActionPerformed
+        dialog_model.setVisible(true);
+    }//GEN-LAST:event_order_button_newModelActionPerformed
 
-    private void newOrder_button_newModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOrder_button_newModelActionPerformed
-        dialog_newModel.setVisible(true);
-    }//GEN-LAST:event_newOrder_button_newModelActionPerformed
+    private void order_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_button_cancelActionPerformed
+        dialog_order.setVisible(false);
+    }//GEN-LAST:event_order_button_cancelActionPerformed
 
-    private void newOrder_button_cancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOrder_button_cancelOrderActionPerformed
-        dialog_newOrder.setVisible(false);
-    }//GEN-LAST:event_newOrder_button_cancelOrderActionPerformed
+    private void customer_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_button_cancelActionPerformed
+        dialog_customer.setVisible(false);
+    }//GEN-LAST:event_customer_button_cancelActionPerformed
 
-    private void newCustomer_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCustomer_button_cancelActionPerformed
-        dialog_newCustomer.setVisible(false);
-    }//GEN-LAST:event_newCustomer_button_cancelActionPerformed
-
-    private void newCustomer_button_createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCustomer_button_createActionPerformed
-        String name = newCustomer_textField_name.getText();
-        Double balance = Double.parseDouble(newCustomer_textField_balance.getText());
+    private void customer_button_doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_button_doneActionPerformed
+        String name = customer_textField_name.getText();
+        Double balance = Double.parseDouble(customer_textField_balance.getText());
         Customer customer = new Customer(name, balance);
-        dataMan.putCustomer(customer);
-        dialog_newCustomer.setVisible(false);
-    }//GEN-LAST:event_newCustomer_button_createActionPerformed
+        DATAMAN.putCustomer(customer);
+        dialog_customer.setVisible(false);
+    }//GEN-LAST:event_customer_button_doneActionPerformed
 
-    private void editOrder_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOrder_button_cancelActionPerformed
-        dialog_editOrder.setVisible(false);
-    }//GEN-LAST:event_editOrder_button_cancelActionPerformed
-
-    private void button_editSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editSelectedActionPerformed
-        dialog_editOrder.setVisible(true);
-    }//GEN-LAST:event_button_editSelectedActionPerformed
-
-    private void newModel_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newModel_button_cancelActionPerformed
+    private void model_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_model_button_cancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_newModel_button_cancelActionPerformed
+    }//GEN-LAST:event_model_button_cancelActionPerformed
 
-    private void newModel_button_newPieceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newModel_button_newPieceActionPerformed
+    private void model_button_newPieceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_model_button_newPieceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_newModel_button_newPieceActionPerformed
+    }//GEN-LAST:event_model_button_newPieceActionPerformed
 
-    private void newModel_button_newFilamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newModel_button_newFilamentActionPerformed
+    private void model_button_newFilamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_model_button_newFilamentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_newModel_button_newFilamentActionPerformed
+    }//GEN-LAST:event_model_button_newFilamentActionPerformed
 
     private void button_showSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_showSummaryActionPerformed
         dialog_summary.setVisible(true);
     }//GEN-LAST:event_button_showSummaryActionPerformed
 
     private void menuItem_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_loadActionPerformed
+        //Unimpleneted to choose files, used with saveLocations in DataManager.
         JFileChooser jfc = new JFileChooser();
-
+        
         try{
-            dataMan.loadOrders();
+            DATAMAN.loadOrders();
         } catch(IOException ex){
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -913,10 +910,10 @@ public final class MainWindow extends javax.swing.JFrame{
     }//GEN-LAST:event_menuItem_loadActionPerformed
 
     private void menuItem_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_saveActionPerformed
-        // Writes all orders in the program to a DataModel and saves the model to 
+        // Writes all orders in the program to a DataModel and saves the model to
         // the disk.
         try{
-            dataMan.saveAll();
+            DATAMAN.saveAll();
         } catch(IOException ex){
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -934,17 +931,55 @@ public final class MainWindow extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItem_exportActionPerformed
 
-    private void editOrder_button_cancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOrder_button_cancel1ActionPerformed
+    private void filament_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filament_button_cancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_editOrder_button_cancel1ActionPerformed
+    }//GEN-LAST:event_filament_button_cancelActionPerformed
 
-    private void editOrder_button_cancel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOrder_button_cancel2ActionPerformed
+    private void piece_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_piece_button_cancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_editOrder_button_cancel2ActionPerformed
+    }//GEN-LAST:event_piece_button_cancelActionPerformed
 
-    private void editOrder_button_cancel3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editOrder_button_cancel3ActionPerformed
+    private void material_button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_material_button_cancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_editOrder_button_cancel3ActionPerformed
+    }//GEN-LAST:event_material_button_cancelActionPerformed
+
+    private void manage_orders_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manage_orders_newActionPerformed
+        dialog_order.setVisible(true);
+        
+        order_comboBox_customer.addItem("Customer");
+        DATAMAN.getOrders().forEach((order) -> {
+            order_comboBox_customer.addItem(order.getName());
+        });
+        
+        order_comboBox_model.addItem("Model");
+        DATAMAN.getModels().forEach((model) -> {
+            order_comboBox_model.addItem(model.getName());
+        });
+        
+        order_spinner_quantity.setValue(1);
+        
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(order_spinner_date, "dd.MM.yyyy");
+        DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
+        formatter.setAllowsInvalid(false);
+        formatter.setOverwriteMode(true);
+        order_spinner_date.setEditor(editor);
+        
+        order_textField_name.setText("Order " + DATAMAN.getOrders().size());
+    }//GEN-LAST:event_manage_orders_newActionPerformed
+
+    private void order_button_doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_button_doneActionPerformed
+        Order order = new Order((Calendar)order_spinner_date.getValue(),
+                (String)order_comboBox_customer.getSelectedItem(),
+                (String)order_comboBox_model.getSelectedItem(),
+                (Integer)order_spinner_quantity.getValue(),
+                order_textField_name.getText());
+        
+        DATAMAN.putOrder(order);
+        
+        fullRefresh();
+        
+        dialog_order.setVisible(false);
+    }//GEN-LAST:event_order_button_doneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -983,95 +1018,134 @@ public final class MainWindow extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup_showInTable;
-    private javax.swing.JButton button_editSelected;
-    private javax.swing.JButton button_newOrder;
     private javax.swing.JButton button_showSummary;
     private javax.swing.JCheckBoxMenuItem cbMenuItem_condForm;
     private javax.swing.JCheckBoxMenuItem cbMenuItem_darkTheme;
-    private javax.swing.JDialog dialog_editOrder;
-    private javax.swing.JDialog dialog_newCustomer;
-    private javax.swing.JDialog dialog_newFilament;
-    private javax.swing.JDialog dialog_newMaterial;
-    private javax.swing.JDialog dialog_newModel;
-    private javax.swing.JDialog dialog_newOrder;
-    private javax.swing.JDialog dialog_newPiece;
+    private javax.swing.JButton customer_button_cancel;
+    private javax.swing.JButton customer_button_done;
+    private javax.swing.JLabel customer_label_balance;
+    private javax.swing.JLabel customer_label_header;
+    private javax.swing.JLabel customer_label_name;
+    private javax.swing.JTextField customer_textField_balance;
+    private javax.swing.JTextField customer_textField_name;
+    private javax.swing.JDialog dialog_customer;
+    private javax.swing.JDialog dialog_filament;
+    private javax.swing.JDialog dialog_material;
+    private javax.swing.JDialog dialog_model;
+    private javax.swing.JDialog dialog_order;
+    private javax.swing.JDialog dialog_piece;
     private javax.swing.JDialog dialog_summary;
-    private javax.swing.JButton editOrder_button_apply;
-    private javax.swing.JButton editOrder_button_apply1;
-    private javax.swing.JButton editOrder_button_apply2;
-    private javax.swing.JButton editOrder_button_apply3;
-    private javax.swing.JButton editOrder_button_cancel;
-    private javax.swing.JButton editOrder_button_cancel1;
-    private javax.swing.JButton editOrder_button_cancel2;
-    private javax.swing.JButton editOrder_button_cancel3;
-    private javax.swing.JLabel editOrder_label_header;
-    private javax.swing.JLabel editOrder_label_header1;
-    private javax.swing.JLabel editOrder_label_header2;
-    private javax.swing.JLabel editOrder_label_header3;
+    private javax.swing.JButton filament_button_cancel;
+    private javax.swing.JButton filament_button_done;
+    private javax.swing.JLabel filament_label_header;
     private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JLabel label_show;
+    private javax.swing.JMenu manage_customers;
+    private javax.swing.JMenu manage_customers_delete;
+    private javax.swing.JMenu manage_customers_edit;
+    private javax.swing.JMenuItem manage_customers_new;
+    private javax.swing.JMenu manage_filaments;
+    private javax.swing.JMenu manage_filaments_delete;
+    private javax.swing.JMenu manage_filaments_edit;
+    private javax.swing.JMenuItem manage_filaments_new;
+    private javax.swing.JMenu manage_materials;
+    private javax.swing.JMenu manage_materials_delete;
+    private javax.swing.JMenu manage_materials_edit;
+    private javax.swing.JMenuItem manage_materials_new;
+    private javax.swing.JMenu manage_models;
+    private javax.swing.JMenu manage_models_delete;
+    private javax.swing.JMenu manage_models_edit;
+    private javax.swing.JMenuItem manage_models_new;
+    private javax.swing.JMenu manage_orders;
+    private javax.swing.JMenu manage_orders_delete;
+    private javax.swing.JMenu manage_orders_edit;
+    private javax.swing.JMenuItem manage_orders_new;
+    private javax.swing.JButton material_button_cancel;
+    private javax.swing.JButton material_button_done;
+    private javax.swing.JLabel material_label_header;
     private javax.swing.JMenuBar menuBar_mainFrame;
-    private javax.swing.JMenuItem menuItem_customers;
     private javax.swing.JMenuItem menuItem_export;
-    private javax.swing.JMenuItem menuItem_filaments;
     private javax.swing.JMenuItem menuItem_load;
-    private javax.swing.JMenuItem menuItem_materials;
-    private javax.swing.JMenuItem menuItem_models;
     private javax.swing.JMenuItem menuItem_save;
     private javax.swing.JMenuItem menuItem_saveAs;
     private javax.swing.JMenu menu_file;
     private javax.swing.JMenu menu_manage;
     private javax.swing.JMenu menu_view;
-    private javax.swing.JButton newCustomer_button_cancel;
-    private javax.swing.JButton newCustomer_button_create;
-    private javax.swing.JLabel newCustomer_label_balance;
-    private javax.swing.JLabel newCustomer_label_header;
-    private javax.swing.JLabel newCustomer_label_name;
-    private javax.swing.JTextField newCustomer_textField_balance;
-    private javax.swing.JTextField newCustomer_textField_name;
-    private javax.swing.JButton newModel_button_add;
-    private javax.swing.JButton newModel_button_cancel;
-    private javax.swing.JButton newModel_button_create;
-    private javax.swing.JButton newModel_button_newFilament;
-    private javax.swing.JButton newModel_button_newPiece;
-    private javax.swing.JButton newModel_button_removeSelected;
-    private javax.swing.JComboBox<String> newModel_comboBox_filament;
-    private javax.swing.JComboBox<String> newModel_comboBox_piece;
-    private javax.swing.JLabel newModel_label_header;
-    private javax.swing.JLabel newModel_label_quantity;
-    private javax.swing.JScrollPane newModel_scrollPane_pieces;
-    private javax.swing.JSeparator newModel_separator_createToRemove;
-    private javax.swing.JSpinner newModel_spinner_quantity;
-    private javax.swing.JTable newModel_table_pieces;
-    private javax.swing.JButton newOrder_button_cancelOrder;
-    private javax.swing.JButton newOrder_button_createOrder;
-    private javax.swing.JButton newOrder_button_newCustomer;
-    private javax.swing.JButton newOrder_button_newModel;
-    private javax.swing.JComboBox<String> newOrder_comboBox_customer;
-    private javax.swing.JComboBox<String> newOrder_comboBox_day;
-    private javax.swing.JComboBox<String> newOrder_comboBox_model;
-    private javax.swing.JComboBox<String> newOrder_comboBox_month;
-    private javax.swing.JComboBox<String> newOrder_comboBox_year;
-    private javax.swing.JLabel newOrder_label_header;
-    private javax.swing.JLabel newOrder_label_orderedOn;
-    private javax.swing.JLabel newOrder_label_quantity;
-    private javax.swing.JSpinner newOrder_spinner_quantity;
+    private javax.swing.JButton model_button_add;
+    private javax.swing.JButton model_button_cancel;
+    private javax.swing.JButton model_button_done;
+    private javax.swing.JButton model_button_newFilament;
+    private javax.swing.JButton model_button_newPiece;
+    private javax.swing.JButton model_button_removeSelected;
+    private javax.swing.JComboBox<String> model_comboBox_filament;
+    private javax.swing.JComboBox<String> model_comboBox_piece;
+    private javax.swing.JLabel model_label_header;
+    private javax.swing.JLabel model_label_quantity;
+    private javax.swing.JScrollPane model_scrollPane_pieces;
+    private javax.swing.JSeparator model_separator_1;
+    private javax.swing.JSpinner model_spinner_quantity;
+    private javax.swing.JTable model_table_pieces;
+    private javax.swing.JButton order_button_cancel;
+    private javax.swing.JButton order_button_done;
+    private javax.swing.JButton order_button_newCustomer;
+    private javax.swing.JButton order_button_newModel;
+    private javax.swing.JComboBox<String> order_comboBox_customer;
+    private javax.swing.JComboBox<String> order_comboBox_model;
+    private javax.swing.JLabel order_label_header;
+    private javax.swing.JLabel order_label_name;
+    private javax.swing.JLabel order_label_orderedOn;
+    private javax.swing.JLabel order_label_quantity;
+    private javax.swing.JSpinner order_spinner_date;
+    private javax.swing.JSpinner order_spinner_quantity;
+    private javax.swing.JTextField order_textField_name;
+    private javax.swing.JButton piece_button_cancel;
+    private javax.swing.JButton piece_button_done;
+    private javax.swing.JLabel piece_label_header;
     private javax.swing.JRadioButton radioButton_showAll;
     private javax.swing.JRadioButton radioButton_showCompleted;
     private javax.swing.JRadioButton radioButton_showIncomplete;
+    private javax.swing.JScrollPane scrollPane_details;
     private javax.swing.JScrollPane scrollPane_orders;
     private javax.swing.JTable table_orders;
+    private javax.swing.JTextArea textArea_details;
     // End of variables declaration//GEN-END:variables
 
     public void fullRefresh(){
         refreshTable();
+        updateDetails(-1);
     }
-
+    
     public void refreshTable(){
-
+        String[] headers = {"Order Name", "Customer", "Date Ordered", "Model", "Quantity", "Profit"};
+        String[][] data = new String[DATAMAN.getOrders().size()][6];
+        
+        Iterator<Order> iterator = DATAMAN.getOrders().iterator();
+        
+        int index = 0;
+        
+        while(iterator.hasNext()){
+            Order order = iterator.next();
+            
+            data[index][0] = order.getName();
+            data[index][1] = order.getCustomer();
+            data[index][2] = order.getDateOrdered().toString();
+            data[index][3] = order.getModel();
+            data[index][4] = "" + order.getQuantity();
+            data[index][5] = order.getProfit();
+            
+            index++;
+        }
+        
+        DefaultTableModel dfm = new DefaultTableModel(data, headers);
+        table_orders.setModel(dfm);
     }
-
+    
+    public void updateDetails(int row){
+        if(row == -1)
+            textArea_details.setText("Select an order for more information about it.");
+        else{
+            //TODO: fill in details text area with information from selected order.
+        }
+    }
+    
 }

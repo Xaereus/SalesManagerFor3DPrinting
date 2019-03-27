@@ -6,7 +6,7 @@
 package printsalesmanager;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import static printsalesmanager.MainWindow.DATAMAN;
 
 
 /**
@@ -16,12 +16,10 @@ import java.util.Collections;
 public class Customer{
 
     private String name;
-    private final ArrayList<Order> orders;
     private double balance;
 
     public Customer(String name, double balance){
         this.name = name;
-        this.orders = new ArrayList<>();
         this.balance = balance;
     }
 
@@ -31,33 +29,6 @@ public class Customer{
 
     public void setName(String name){
         this.name = name;
-    }
-
-    /**
-     *
-     * @return An unmodifiable <tt>ArrayList</tt> of this <tt>Customer</tt>'s
-     * <tt>Order</tt>s.
-     */
-    public ArrayList<Order> getOrders(){
-        return (ArrayList<Order>)Collections.unmodifiableList(this.orders);
-    }
-
-    /**
-     * Appends an <tt>Order</tt> onto this <tt>Customer</tt>'s order list.
-     *
-     * @param order
-     */
-    public void addOrder(Order order){
-        this.orders.add(order);
-    }
-
-    /**
-     * Removes an <tt>Order</tt> from this <tt>Customer</tt>'s order list.
-     *
-     * @param order The order to remove from this Customer
-     */
-    public void delOrder(Order order){
-        this.orders.remove(order);
     }
 
     public double getBalance(){
@@ -81,6 +52,22 @@ public class Customer{
      */
     public void addBalance(int amount){
         this.balance += amount;
+    }
+
+    /**
+     * Gets all the orders for this customer.
+     *
+     * @return An ArrayList of orders
+     */
+    public ArrayList<Order> getOrders(){
+        ArrayList<Order> o = new ArrayList<>();
+        DATAMAN.getOrders().stream().filter((order) -> {
+            return order.getCustomer().equals(getName());
+        }).forEachOrdered((order) -> {
+            o.add(order);
+        });
+
+        return o;
     }
 
 }
